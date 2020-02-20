@@ -1,8 +1,7 @@
 == SERVER ==
 1. Connection
 2. Enable default cmd
-3. Threads for work with many servers
-4.
+3.gi
 
 == CLIENT ==
 1. Log in
@@ -10,4 +9,3 @@
 3. Connect to the server
 4. Security of LogIn
 5.
-
