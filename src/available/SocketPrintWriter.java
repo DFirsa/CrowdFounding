@@ -2,12 +2,12 @@ package available;
 
 import java.io.*;
 
-public class PortPrintWriter {
+public class SocketPrintWriter {
 
     BufferedWriter out;
     BufferedReader in;
 
-    public PortPrintWriter(InputStream inputStream, OutputStream outputStream){
+    public SocketPrintWriter(InputStream inputStream, OutputStream outputStream){
 
         in = new BufferedReader(new InputStreamReader(inputStream));
         out = new BufferedWriter(new OutputStreamWriter(outputStream));
