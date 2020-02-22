@@ -1,5 +1,7 @@
 package Client;
 
+import available.SocketPrintWriter;
+
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -8,26 +10,23 @@ public class Client {
 
     private static Socket clientSocket;
     private static BufferedReader reader;
-    private static BufferedReader in;
-    private static BufferedWriter out;
+    private static SocketPrintWriter printWriter;
 
     private static int port = 5000;
 
     public static void main(String[] args) throws IOException {
 
         try {
-            clientSocket = new Socket("localhost", port);
 
-            reader = new BufferedReader(new InputStreamReader(System.in));
-            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
+            enable();
+            System.out.println("== Client ==");
+            System.out.println("Enter commands. Enter help to get info about commands");
 
-            System.out.println("Write anything here:");
-            String message = reader.readLine();
-            out.write(message + "\n");
-            out.flush();
+            String request = reader.readLine();
 
-            String serverAnswer = in.readLine();
+            printWriter.print(request);
+
+            String serverAnswer = printWriter.read();
             System.out.println(">> " + serverAnswer);
 
         } catch (UnknownHostException e) {
@@ -37,8 +36,22 @@ public class Client {
         } finally {
             System.out.println("Client has been closed");
             clientSocket.close();
-            in.close();
-            out.close();
+            printWriter.close();
         }
+    }
+
+    private static void enable() throws IOException {
+        clientSocket = new Socket("localhost", port);
+        reader = new BufferedReader(new InputStreamReader(System.in));
+        printWriter = new SocketPrintWriter(clientSocket.getInputStream(), clientSocket.getOutputStream());
+    }
+
+    private static void requestProcessing(String request) {
+
+    }
+
+    private static String[] parse(String input){
+
+        String[] result = input.split(" ");
     }
 }

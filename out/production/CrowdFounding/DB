@@ -1,0 +1,11 @@
+1. LogIn DB
+    [ id ] [username] [password]
+    [long] [  text  ] [  text  ]
+
+2. Funds DB
+    [fundId] [fundName] [ amount]
+    [ long ] [  text  ] [decimal]
+
+3. UsersWallet DB
+    [ id ] [ amount]
+    [long] [decimal]

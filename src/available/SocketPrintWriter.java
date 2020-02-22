@@ -21,4 +21,9 @@ public class SocketPrintWriter {
     public String read() throws IOException {
         return in.readLine();
     }
+
+    public void close() throws IOException {
+        in.close();
+        out.close();
+    }
 }
