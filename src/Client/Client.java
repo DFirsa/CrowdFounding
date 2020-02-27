@@ -21,13 +21,23 @@ public class Client {
             enable();
             System.out.println("== Client ==");
             System.out.println("Enter commands. Enter help to get info about commands");
+            System.out.println("------------");
 
-            String request = reader.readLine();
+            while (true){
 
-            printWriter.print(request);
+                String request = reader.readLine();
+                String[] parsedRequest = request.split(" ");
 
-            String serverAnswer = printWriter.read();
-            System.out.println(">> " + serverAnswer);
+                if(parsedRequest[0].equals("quit")) break;
+                if(continueCondition(parsedRequest)) {
+                    System.out.println(">> Illegal syntax!");
+                    continue;
+                }
+
+                printWriter.print(request);
+                String answer = printWriter.read();
+                System.out.println(">> " + answer);
+            }
 
         } catch (UnknownHostException e) {
             e.printStackTrace();
@@ -46,12 +56,10 @@ public class Client {
         printWriter = new SocketPrintWriter(clientSocket.getInputStream(), clientSocket.getOutputStream());
     }
 
-    private static void requestProcessing(String request) {
-
-    }
-
-    private static String[] parse(String input){
-
-        String[] result = input.split(" ");
+    private static boolean continueCondition(String[] requestParts){
+        return (requestParts.length > 3)
+                || (requestParts.length == 3 && !requestParts[0].equals("giveToFund"))
+                || (requestParts.length == 2 && !requestParts[0].equals("addBalance"))
+                || (requestParts.length == 1 && !requestParts[0].equals("getBalance"));
     }
 }

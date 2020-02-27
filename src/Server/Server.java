@@ -23,10 +23,11 @@ public class Server {
             try {
                 printWriter = new SocketPrintWriter(clientSocket.getInputStream(), clientSocket.getOutputStream());
 
-                String fromClient = printWriter.read();
-                System.out.println(fromClient);
-                printWriter.print("Hi! I'm the server, and I know, that you have wrote: " + fromClient);
-
+                while (true) {
+                    String fromClient = printWriter.read();
+                    System.out.println(fromClient);
+                    printWriter.print("Hi! I'm the server, and I know, that you have wrote: " + fromClient);
+                }
             }
             finally {
                 System.out.println("Socket has closed");
