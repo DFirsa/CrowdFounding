@@ -47,7 +47,7 @@ public class Client {
     }
 
     private static void requestProcessing(String request) {
-
+        System.out.println("sjdvbks");
     }
 
 //    private static String[] parse(String input){
