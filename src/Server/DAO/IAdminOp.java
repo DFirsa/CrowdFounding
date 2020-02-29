@@ -1,4 +1,6 @@
-package Server;
+package Server.DAO;
+
+import Server.Server;
 
 public interface IAdminOp {
 

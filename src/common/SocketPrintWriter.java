@@ -1,4 +1,4 @@
-package available;
+package common;
 
 import java.io.*;
 

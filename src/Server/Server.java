@@ -1,6 +1,6 @@
 package Server;
 
-import available.SocketPrintWriter;
+import common.SocketPrintWriter;
 
 import java.io.*;
 import java.net.ServerSocket;

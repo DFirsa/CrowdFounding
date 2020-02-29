@@ -1,6 +1,6 @@
 package Client;
 
-import available.SocketPrintWriter;
+import common.SocketPrintWriter;
 
 import java.io.*;
 import java.net.Socket;
@@ -50,8 +50,8 @@ public class Client {
 
     }
 
-    private static String[] parse(String input){
-
-        String[] result = input.split(" ");
-    }
+//    private static String[] parse(String input){
+//
+//        String[] result = input.split(" ");
+//    }
 }
