@@ -1,4 +1,5 @@
 package common;
 
-public class Exceptions {
+class IllegalSyntaxException extends Exception {
+
 }
