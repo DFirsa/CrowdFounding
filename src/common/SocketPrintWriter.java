@@ -13,7 +13,7 @@ public class SocketPrintWriter {
         out = new BufferedWriter(new OutputStreamWriter(outputStream));
     }
 
-    public void print(String message) throws IOException {
+    public void send(String message) throws IOException {
         out.write(message + "\n");
         out.flush();
     }

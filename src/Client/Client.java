@@ -20,21 +20,21 @@ public class Client {
 
             enable();
             System.out.println("== Client ==");
-            System.out.println("Enter commands. Enter help to get info about commands");
+            System.out.println("Enter commands or enter help to get info about commands");
 
-            String request = reader.readLine();
+            while (true){
+                String request = reader.readLine();
+                printWriter.send(request);
 
-            printWriter.print(request);
-
-            String serverAnswer = printWriter.read();
-            System.out.println(">> " + serverAnswer);
+                String answer = printWriter.read();
+                System.out.println(answer);
+            }
 
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            System.out.println("Client has been closed");
             clientSocket.close();
             printWriter.close();
         }

@@ -2,41 +2,40 @@ package Server;
 
 import common.SocketPrintWriter;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.LinkedList;
+
+//TODO there is admin cmd string
 
 public class Server {
 
     private static final int port = 5000;
 
-    private static ServerSocket server;
     private static SocketPrintWriter printWriter;
+    public static LinkedList<ClientThread> serverList = new LinkedList<>();
+
+
 
     public static void main(String[] args) throws IOException {
+
+        ServerSocket server = new ServerSocket(port);
+
         try {
-            server = new ServerSocket(port);
-            System.out.println("Server has been ran");
+            while (true) {
 
-            Socket clientSocket = server.accept();
+                Socket socket = server.accept();
 
-            try {
-                printWriter = new SocketPrintWriter(clientSocket.getInputStream(), clientSocket.getOutputStream());
-
-                while (true) {
-                    String fromClient = printWriter.read();
-                    System.out.println(fromClient);
-                    printWriter.print("Hi! I'm the server, and I know, that you have wrote: " + fromClient);
+                try {
+                    serverList.add(new ClientThread(socket));
                 }
-            }
-            finally {
-                System.out.println("Socket has closed");
-                clientSocket.close();
-                printWriter.close();
+                catch (IOException e){
+                    socket.close();
+                }
             }
         }
         finally {
-            System.out.println("Server has closed");
             server.close();
         }
     }
