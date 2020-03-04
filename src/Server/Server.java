@@ -22,14 +22,11 @@ public class Server {
 
     private static SocketPrintWriter printWriter;
     public static LinkedList<ClientThread> serverList = new LinkedList<>();
-    private static Connection dbConnection;
     private static FileReader reader;
     private static Properties properties;
 
     public static void main(String[] args) throws IOException, SQLException {
 
-        DBConnector dbConnector = new DBConnector();
-        dbConnection = dbConnector.connect();
         getBDProp();
 
         ServerSocket server = new ServerSocket(port);
@@ -40,7 +37,7 @@ public class Server {
                 Socket socket = server.accept();
 
                 try {
-                    serverList.add(new ClientThread(socket, dbConnection, properties));
+                    serverList.add(new ClientThread(socket, properties));
                 }
                 catch (IOException e){
                     socket.close();
@@ -48,7 +45,6 @@ public class Server {
             }
         }
         finally {
-            dbConnection.close();
             server.close();
         }
     }

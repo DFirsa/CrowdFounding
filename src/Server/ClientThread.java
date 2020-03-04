@@ -14,12 +14,10 @@ public class ClientThread extends Thread {
 
     private Socket socket;
     private SocketPrintWriter printWriter;
-    private java.sql.Connection connection;
     private Properties properties;
 
-    public ClientThread(Socket socket, java.sql.Connection dbConnection, Properties properties) throws IOException{
+    public ClientThread(Socket socket, Properties properties) throws IOException{
         this.socket = socket;
-        this.connection = dbConnection;
         this.properties = properties;
         printWriter = new SocketPrintWriter(socket.getInputStream(), socket.getOutputStream());
         start();

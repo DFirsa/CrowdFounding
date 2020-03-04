@@ -5,6 +5,7 @@ import Client.IUserOp;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,15 +14,11 @@ import java.util.Properties;
 
 public class WalletsDAO implements IUserOp{
 
-    private final Connection connection;
     private Properties properties;
     private FileReader fileReader;
 
-    public WalletsDAO(Connection connection, Properties properties) throws FileNotFoundException {
-        this.connection = connection;
-        this.properties = properties;
+    public WalletsDAO() throws FileNotFoundException {
 
-        fileReader = new FileReader(new File("db.properties"));
     }
 
     @Override
@@ -32,14 +29,13 @@ public class WalletsDAO implements IUserOp{
     @Override
     public void giveToFund(long userId, String fundName, double amount) {
 
-
-
-
-
     }
 
     @Override
-    public double getBalance(long userId) throws SQLException {
+    public double getBalance(long userId) throws SQLException, IOException {
+
+        DBConnector connector = new DBConnector();
+        Connection connection = connector.connect();
 
         String query = getQueryGenerator(properties.getProperty("am"),
                 properties.getProperty("money"), properties.getProperty("uid")
@@ -52,6 +48,8 @@ public class WalletsDAO implements IUserOp{
         while (rs.next()){
             result = rs.getDouble(1);
         }
+        connection.close();
+
         return result;
     }
 
