@@ -1,18 +1,26 @@
 package Server;
 
 import Server.Server;
+import com.sun.jdi.connect.spi.Connection;
 import common.SocketPrintWriter;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Properties;
+
+//TODO in every request connect to db and close it
 
 public class ClientThread extends Thread {
 
     private Socket socket;
     private SocketPrintWriter printWriter;
+    private java.sql.Connection connection;
+    private Properties properties;
 
-    public ClientThread(Socket socket) throws IOException{
+    public ClientThread(Socket socket, java.sql.Connection dbConnection, Properties properties) throws IOException{
         this.socket = socket;
+        this.connection = dbConnection;
+        this.properties = properties;
         printWriter = new SocketPrintWriter(socket.getInputStream(), socket.getOutputStream());
         start();
     }

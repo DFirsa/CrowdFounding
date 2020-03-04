@@ -1,6 +1,7 @@
 package Client;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 
 public interface IUserOp {
 
@@ -8,5 +9,5 @@ public interface IUserOp {
 
     void giveToFund(long userId, String fundName, double amount);
 
-    double getBalance(long userId);
+    double getBalance(long userId) throws SQLException;
 }

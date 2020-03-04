@@ -1,6 +1,6 @@
 =+= TASKS =+=
 ------------------- Many threads ---------------- DONE
-2. DB connection
+------------------- DB connection --------------- DONE
 3. DB requests
 4. Command parser
 5. Command execution

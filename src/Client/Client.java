@@ -22,7 +22,7 @@ public class Client {
             System.out.println("== Client ==");
             System.out.println("Enter commands or enter help to get info about commands");
 
-            while (true){
+            while (true) {
                 String request = reader.readLine();
                 printWriter.send(request);
 
@@ -40,18 +40,20 @@ public class Client {
         }
     }
 
-    private static void enable() throws IOException {
-        clientSocket = new Socket("localhost", port);
-        reader = new BufferedReader(new InputStreamReader(System.in));
-        printWriter = new SocketPrintWriter(clientSocket.getInputStream(), clientSocket.getOutputStream());
-    }
+
+        private static void enable () throws IOException {
+            clientSocket = new Socket("localhost", port);
+            reader = new BufferedReader(new InputStreamReader(System.in));
+            printWriter = new SocketPrintWriter(clientSocket.getInputStream(), clientSocket.getOutputStream());
+        }
 
     private static void requestProcessing(String request) {
-        System.out.println("sjdvbks");
-    }
+
+
 
 //    private static String[] parse(String input){
 //
 //        String[] result = input.split(" ");
 //    }
+    }
 }
