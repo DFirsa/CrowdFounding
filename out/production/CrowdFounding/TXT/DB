@@ -8,4 +8,4 @@
 
 3. UsersWallet DB
     [ id ] [ amount]
-    [long] [decimal]UserWallet
+    [long] [decimal]

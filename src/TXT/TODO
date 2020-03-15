@@ -1,7 +1,7 @@
 =+= TASKS =+=
 ------------------- Many threads ---------------- DONE
 ------------------- DB connection --------------- DONE
-3. DB requests
+------------------- DB requests ----------------- DONE
 4. Command parser
 5. Command execution
 6. Add admin cmd

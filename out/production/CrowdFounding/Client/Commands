@@ -1,0 +1,9 @@
+addBalance <amount>
+
+getBalance
+
+giveTo <fund name>
+
+help
+
+stop

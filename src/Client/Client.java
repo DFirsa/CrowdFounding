@@ -41,11 +41,11 @@ public class Client {
     }
 
 
-        private static void enable () throws IOException {
-            clientSocket = new Socket("localhost", port);
-            reader = new BufferedReader(new InputStreamReader(System.in));
-            printWriter = new SocketPrintWriter(clientSocket.getInputStream(), clientSocket.getOutputStream());
-        }
+    private static void enable () throws IOException {
+        clientSocket = new Socket("localhost", port);
+        reader = new BufferedReader(new InputStreamReader(System.in));
+        printWriter = new SocketPrintWriter(clientSocket.getInputStream(), clientSocket.getOutputStream());
+    }
 
     private static void requestProcessing(String request) {
 

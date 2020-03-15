@@ -1,5 +1,7 @@
 package Server.DAO;
 
+import configs.ConfigConnector;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -13,10 +15,8 @@ public class DBConnector {
 
     public Connection connect() throws IOException, SQLException {
 
-        File configFile = new File("config.properties");
-        FileReader reader = new FileReader(configFile);
-        Properties prop = new Properties();
-        prop.load(reader);
+        ConfigConnector configConnector = new ConfigConnector();
+        Properties prop = configConnector.openConfig("config.properties");
 
          String url = "jdbc:mysql://" + prop.getProperty("host")
                 + ":" + prop.getProperty("port") + "/"
@@ -25,7 +25,7 @@ public class DBConnector {
         String pword = prop.getProperty("password");
         String user = prop.getProperty("user");
 
-        reader.close();
+        configConnector.close();
 
         return DriverManager.getConnection(url, user, pword);
     }
