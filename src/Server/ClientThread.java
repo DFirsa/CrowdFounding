@@ -1,12 +1,11 @@
 package Server;
 
-import Server.Server;
-import com.sun.jdi.connect.spi.Connection;
 import common.SocketPrintWriter;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Properties;
+import java.util.UUID;
 
 //TODO in every request connect to db and close it
 
@@ -15,6 +14,7 @@ public class ClientThread extends Thread {
     private Socket socket;
     private SocketPrintWriter printWriter;
     private Properties properties;
+    private String key;
 
     public ClientThread(Socket socket, Properties properties) throws IOException{
         this.socket = socket;
@@ -29,6 +29,9 @@ public class ClientThread extends Thread {
         String input;
 
         try {
+
+            key = getSecureKey();
+            send(key);
 
             while (true){
 
@@ -66,4 +69,7 @@ public class ClientThread extends Thread {
         } catch (IOException ignored) {}
     }
 
+    private String getSecureKey(){
+        return UUID.randomUUID().toString().replaceAll("-","");
+    }
 }
