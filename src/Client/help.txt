@@ -1,0 +1,5 @@
+addMoney <amount>
+giveTo <amount> <fund>
+myBalance
+SignIn
+SignUp

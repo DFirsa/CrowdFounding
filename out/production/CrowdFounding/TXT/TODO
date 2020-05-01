@@ -1,9 +1,0 @@
-=+= TASKS =+=
-------------------- Many threads ---------------- DONE
-------------------- DB connection --------------- DONE
-------------------- DB requests ----------------- DONE
-4. Command parser
-5. Command execution
-6. Add admin cmd
-7. Errors situations
-8. Login

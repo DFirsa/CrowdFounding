@@ -1,8 +1,7 @@
 package Server.DAO;
 
-import Client.IUserOp;
-
 import common.exceptions.NotEnoughMoneyEx;
+import common.exceptions.ObjectDoesntExistEx;
 import configs.ConfigConnector;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -39,7 +38,7 @@ public class WalletsDAO implements IUserOp{
                     " = " + userId;
 
             statement = connection.createStatement();
-            statement.executeQuery(query);
+            statement.executeUpdate(query);
         }
         finally {
             statement.close();
@@ -49,10 +48,11 @@ public class WalletsDAO implements IUserOp{
     }
 
     //SELECT @am from @money WHERE @uid = userId
+    ////SELECT COUNT(@fund) FROM @funds WHERE @fund = fundName
     //UPDATE @money SET @am = amount - @am WHERE @uid = userId;
     //UPDATE @funds SET @am = amount + @am WHERE @fund = fundName
     @Override
-    public void giveToFund(long userId, String fundName, double amount) throws IOException, SQLException, NotEnoughMoneyEx {
+    public void giveToFund(long userId, String fundName, double amount) throws IOException, SQLException, NotEnoughMoneyEx, ObjectDoesntExistEx {
 
         Connection connection = null;
         Properties properties;
@@ -75,29 +75,41 @@ public class WalletsDAO implements IUserOp{
                 money = rs.getDouble(1);
             }
             if (money < amount) throw new NotEnoughMoneyEx();
+            rs.close();
 
+            query = "SELECT COUNT(" + properties.getProperty("fund") + ") FROM " +
+                    properties.getProperty("funds") + " WHERE " + properties.getProperty("fund") +
+                    " = " + "'" + fundName + "'";
+
+            rs = statement.executeQuery(query);
+
+            int count = 0;
+            while (rs.next()){
+                count = rs.getInt(1);
+            }
+
+            if (count == 0)throw new ObjectDoesntExistEx(fundName);
 
             query = "UPDATE " + properties.getProperty("money") + " SET " + properties.getProperty("am") +
-                    " = " + amount + " - " + properties.getProperty("am") + " WHERE " + properties.getProperty("uid") +
+                    " = " + properties.getProperty("am") + " - " + amount + " WHERE " + properties.getProperty("uid") +
                     " = " + userId;
 
-            statement.executeQuery(query);
+            statement.executeUpdate(query);
 
             query = "UPDATE " + properties.getProperty("funds") + " SET " + properties.getProperty("am") +
                     " = " + amount + " + " + properties.getProperty("am") + " WHERE " + properties.getProperty("fund") +
-                    " = " + fundName;
+                    " = " + "'" + fundName + "'";
 
-            statement.execute(query);
+            statement.executeUpdate(query);
 
         }
-        catch (NotEnoughMoneyEx e){
+        catch (NotEnoughMoneyEx | ObjectDoesntExistEx | SQLException e){
             throw e;
-        }
-        finally {
-            rs.close();
-            statement.close();
-            connection.close();
-            configConnector.close();
+        } finally {
+            if(rs != null)rs.close();
+            if(statement != null) statement.close();
+            if(connection != null) connection.close();
+            if(configConnector != null) configConnector.close();
         }
     }
 

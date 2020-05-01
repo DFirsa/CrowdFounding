@@ -1,0 +1,3 @@
+create <fund name> - operation for creating the fund
+balance <fund name> - operation for get balance of the fund
+help - operation for get information about commands

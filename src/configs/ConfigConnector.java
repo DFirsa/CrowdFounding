@@ -11,7 +11,7 @@ public class ConfigConnector {
 
     public Properties openConfig(String configName) throws IOException {
 
-        File configFile = new File(configName);
+        File configFile = new File("./src/configs/" + configName);
         reader = new FileReader(configFile);
         Properties prop = new Properties();
         prop.load(reader);

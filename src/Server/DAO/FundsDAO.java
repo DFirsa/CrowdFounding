@@ -37,7 +37,7 @@ public class FundsDAO implements IAdminOp {
 
             String query = "SELECT COUNT(" + properties.getProperty("fund") + ") FROM " +
                     properties.getProperty("funds") + " WHERE " + properties.getProperty("fund") +
-                    " = " + fundName;
+                    " = " + "'" + fundName + "'";
 
             statement = connection.createStatement();
             rs = statement.executeQuery(query);
@@ -50,18 +50,18 @@ public class FundsDAO implements IAdminOp {
             if (count != 0) throw new ObjectAlreadyExistEx(fundName);
 
             query = "INSERT INTO " + properties.getProperty("funds") + " (" + properties.getProperty("fund") +
-                    ", " + properties.getProperty("am") + ") " + "VALUES ( '" + properties.get("fund") + "', 0)";
+                    ", " + properties.getProperty("am") + ") " + "VALUES ( '" + fundName + "', 0)";
 
-            statement.execute(query);
+            statement.executeUpdate(query);
         }
         catch (ObjectAlreadyExistEx e){
             throw e;
         }
         finally {
-            rs.close();
-            statement.close();
-            connection.close();
-            configConnector.close();
+            if(rs != null)rs.close();
+            if(statement != null)statement.close();
+            if(connection != null)connection.close();
+            if(configConnector != null)configConnector.close();
         }
     }
 
@@ -81,7 +81,7 @@ public class FundsDAO implements IAdminOp {
 
             String query = "SELECT " + properties.getProperty("am") + " FROM " +
                     properties.getProperty("funds") + " WHERE " +
-                    properties.getProperty("fund") + " = " + fundName;
+                    properties.getProperty("fund") + " = " + "'" + fundName + "'";
 
             statement = connection.createStatement();
             rs = statement.executeQuery(query);
@@ -99,10 +99,10 @@ public class FundsDAO implements IAdminOp {
             throw e;
         }
         finally {
-            rs.close();
-            statement.close();
-            connection.close();
-            configConnector.close();
+            if(rs != null)rs.close();
+            if(statement != null)statement.close();
+            if(connection != null)connection.close();
+            if(configConnector != null)configConnector.close();
         }
     }
 }

@@ -14,8 +14,6 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.Properties;
 
-//TODO there is admin cmd string
-
 public class Server {
 
     private static final int port = 5000;
@@ -29,6 +27,7 @@ public class Server {
 
         getBDProp();
 
+        AdminConsole adminConsole = new AdminConsole();
         ServerSocket server = new ServerSocket(port);
 
         try {
@@ -50,7 +49,7 @@ public class Server {
     }
 
     public static void getBDProp() throws IOException {
-        reader = new FileReader(new File("db.properties"));
+        reader = new FileReader(new File("./src/configs/db.properties"));
         properties = new Properties();
         properties.load(reader);
     }

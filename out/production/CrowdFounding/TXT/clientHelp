@@ -1,0 +1,4 @@
+addBalance <amount> - operation to replanish you wallet.
+getBalance - operation that return how much money you have at the wallet
+giveTo <amount> <fund name> - operation for donating money to the fund
+help - show operations info

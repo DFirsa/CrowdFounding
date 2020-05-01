@@ -2,9 +2,6 @@ package Server.DAO;
 
 import configs.ConfigConnector;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,7 +17,7 @@ public class DBConnector {
 
          String url = "jdbc:mysql://" + prop.getProperty("host")
                 + ":" + prop.getProperty("port") + "/"
-                + prop.getProperty("database");
+                + prop.getProperty("database") + "?serverTimezone=UTC";
 
         String pword = prop.getProperty("password");
         String user = prop.getProperty("user");
