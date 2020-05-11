@@ -2,8 +2,11 @@ package Client;
 
 import common.SocketPrintWriter;
 import java.io.*;
+import java.net.ConnectException;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Scanner;
+import common.exceptions.ExitException;
 
 
 public class Client {
@@ -17,7 +20,7 @@ public class Client {
 
     private static final int port = 5000;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
 
         try {
 
@@ -30,25 +33,42 @@ public class Client {
             while (true) {
                 System.out.print("> ");
                 String request = reader.readLine();
-                commandExecutor(request);
+                try{
+                    commandExecutor(request);
+                } catch (ExitException e) {
+                    break;
+                }catch (SocketException e){
+                    System.out.println("Lose connection to server. Reconnect...");
+                    loginL = false;
+                    if(clientSocket != null)clientSocket.close();
+                    if(printWriter != null)printWriter.close();
+                    Thread.sleep(15000);
+                    enable();
+                    key = printWriter.read();
+                }
             }
 
-        } catch (IOException e) {
+        }
+        catch(ConnectException e){
+            System.out.println("Can't connect to server. Closing...");
+            return;
+        }
+        catch (IOException e) {
             e.printStackTrace();
         } finally {
-            clientSocket.close();
-            printWriter.close();
+            if(clientSocket != null)clientSocket.close();
+            if(printWriter != null)printWriter.close();
         }
     }
 
 
-    private static void enable () throws IOException {
+    private static void enable () throws IOException, ConnectException {
         clientSocket = new Socket("localhost", port);
         reader = new BufferedReader(new InputStreamReader(System.in));
         printWriter = new SocketPrintWriter(clientSocket.getInputStream(), clientSocket.getOutputStream());
     }
 
-    private static void commandExecutor(String request) throws IOException {
+    private static void commandExecutor(String request) throws IOException, ExitException {
         String[] parsed = request.split(" ");
         String answer;
 
@@ -58,10 +78,15 @@ public class Client {
 
             case ("help"):
                 System.out.println("addBalance <amount> - operation to replanish you wallet.");
-                System.out.println("getBalance - operation that return how much money you have at the wallet");
+                System.out.println("myBalance - operation that return how much money you have at the wallet");
                 System.out.println("giveTo <amount> <fund name> - operation for donating money to the fund");
                 System.out.println("help - show operations info");
+                System.out.println("exit - close the app");
                 break;
+
+            case("exit"):
+                throw new ExitException();
+
 
             case ("addMoney"):
                 //add balance
@@ -207,6 +232,10 @@ public class Client {
                 return input.length == 1;
 
             case("signIn"):
+                if (input.length != 1) System.out.println("This operation must has no operands");
+                return input.length == 1;
+
+            case("exit"):
                 if (input.length != 1) System.out.println("This operation must has no operands");
                 return input.length == 1;
 
